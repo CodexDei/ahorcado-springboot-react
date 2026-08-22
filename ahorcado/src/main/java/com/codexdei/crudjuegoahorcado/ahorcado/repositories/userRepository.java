@@ -2,13 +2,15 @@ package com.codexdei.crudjuegoahorcado.ahorcado.repositories;
 
 import java.util.Optional;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.codexdei.crudjuegoahorcado.ahorcado.entities.User;
 
-public interface userRepository extends CrudRepository<User,Long> {
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    boolean existBy(String username);
     Optional<User> findByUsername(String username);
 
+    boolean existsByUsername(String username);
 }

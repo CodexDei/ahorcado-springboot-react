@@ -3,13 +3,21 @@ package com.codexdei.crudjuegoahorcado.ahorcado.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -33,7 +41,22 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<ScoreBoard> scoreBoardsList = new ArrayList<>();
 
-    public User(){}
+    @JsonIgnoreProperties({ "roles", "handler", "hibernateLazyInitializer" })
+    @ManyToMany
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "users"), inverseJoinColumns = @JoinColumn(name = "roles"), uniqueConstraints = @UniqueConstraint(columnNames = {
+            "users", "roles" }))
+    private List<Role> roles;
+
+    private boolean enabled;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Transient
+    private boolean admin;
+
+    public User() {
+
+        roles = new ArrayList<>();
+    }
 
     public User(@NotBlank @Size(min = 4, max = 12) String username,
             @NotBlank @Size(min = 5, max = 20) String password) {
@@ -63,6 +86,30 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<ScoreBoard> getScoreBoardsList() {
+        return scoreBoardsList;
+    }
+
+    public void setScoreBoardsList(List<ScoreBoard> scoreBoardsList) {
+        this.scoreBoardsList = scoreBoardsList;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override
@@ -102,8 +149,12 @@ public class User {
         return true;
     }
 
-    
+    public boolean isAdmin() {
+        return admin;
+    }
 
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
 
-    
 }

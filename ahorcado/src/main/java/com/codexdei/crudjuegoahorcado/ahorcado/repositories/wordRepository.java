@@ -1,15 +1,21 @@
 package com.codexdei.crudjuegoahorcado.ahorcado.repositories;
 
-import java.util.Optional;
-
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.codexdei.crudjuegoahorcado.ahorcado.entities.Word;
-import java.util.List;
+import com.codexdei.crudjuegoahorcado.ahorcado.enums.Difficulty;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-public interface wordRepository extends CrudRepository<Word,Long>{
+@Repository
+public interface WordRepository extends JpaRepository<Word, Long> {
 
-    Optional<Word> findById(Long id);
+    long countByDifficulty(Difficulty difficulty);
+
+    Page<Word> findByDifficulty(
+            Difficulty difficulty,
+            Pageable pageable);
 
 }

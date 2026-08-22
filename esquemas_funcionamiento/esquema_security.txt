@@ -1,0 +1,85 @@
+                   LOGIN
+                     │
+                     ▼
+             username/password
+                     │
+                     ▼
+          AuthenticationManager
+                     │
+                     ▼
+            AuthenticationProvider
+                 /        \
+                /          \
+               ▼            ▼
+CustomUserDetailsService  PasswordEncoder
+               │            │
+               ▼            ▼
+           User BD        BCrypt
+                \          /
+                 \        /
+                  ▼      ▼
+               AUTENTICADO
+                     │
+                     ▼
+                 JwtService
+                     │
+                     ▼
+                    JWT
+                     │
+                     ▼
+        ─────────────────────────
+        SIGUIENTES PETICIONES
+        ─────────────────────────
+                     │
+                     ▼
+        Authorization: Bearer JWT
+                     │
+                     ▼
+        JwtAuthenticationFilter
+                     │
+                     ▼
+                JwtService
+                     │
+                     ▼
+             JWT válido
+                     │
+                     ▼
+              Authentication
+                     │
+                     ▼
+             SecurityContext
+                     │
+                     ▼
+            Endpoint protegido
+
+
+
+| Componente                | Pregunta que resuelve                              |
+| ------------------------- | -------------------------------------------------- |
+| `UserDetailsService`      | **¿Quién es este usuario?**                        |
+| `PasswordEncoder`         | **¿La contraseña es correcta?**                    |
+| `AuthenticationManager`   | **¿Puede autenticarse este usuario?**              |
+| `JwtService`              | **¿Cómo genero/verifico su JWT?**                  |
+| `JwtAuthenticationFilter` | **¿Viene un JWT en esta petición y es válido?**    |
+| `SecurityContext`         | **¿Quién está autenticado durante esta petición?** |
+
+
+| Concepto           | Pregunta                     |
+| ------------------ | ---------------------------- |
+| **Authentication** | ¿Quién eres?                 |
+| **Authorization**  | ¿Qué tienes permitido hacer? |
+
+
+Authentication
+        │
+        ▼
+¿Quién eres?
+        │
+        ▼
+Yorking
+        │
+        ▼
+Authorization
+        │
+        ▼
+¿Qué puedes hacer?

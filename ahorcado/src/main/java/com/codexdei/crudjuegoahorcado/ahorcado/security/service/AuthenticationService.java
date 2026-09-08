@@ -35,12 +35,13 @@ public class AuthenticationService {
 
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-        String username = authentication.getName();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalStateException("Authenticated user '" + username + "' was not found"));
+        String token = jwtService.generateToken(userDetails);
 
-        String token = jwtService.generateToken((UserDetails) authentication.getPrincipal());
+        User user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalStateException(
+                        "Authenticated user '" + userDetails.getUsername() + "' was not found"));
 
         return new JwtResponseDto(token, user.getUsername(), user.getRoles());
     }

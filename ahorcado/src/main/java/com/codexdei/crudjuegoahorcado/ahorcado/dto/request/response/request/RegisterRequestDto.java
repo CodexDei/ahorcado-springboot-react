@@ -1,9 +1,14 @@
 package com.codexdei.crudjuegoahorcado.ahorcado.dto.request.response.request;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class RegisterRequestDto {
 
+    @NotBlank 
     private String username;
+    @NotBlank 
     private String password;
+    @NotBlank 
     private boolean admin;
 
     public String getUsername() {

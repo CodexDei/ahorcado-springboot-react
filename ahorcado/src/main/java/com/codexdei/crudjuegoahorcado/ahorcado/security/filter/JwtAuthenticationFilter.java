@@ -19,6 +19,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 /**
  * Filtro encargado de autenticar las peticiones mediante un JWT.
  *
@@ -44,7 +46,7 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 
 @Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class extends OncePerRequestFilter {
 
     /**
      * Servicio encargado de todas las operaciones relacionadas
@@ -155,7 +157,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             }
 
-        } catch (JwtException e) {
+        } catch (JwtException | UsernameNotFoundException e) {
 
             /*
              * Cualquier excepción relacionada con JWT

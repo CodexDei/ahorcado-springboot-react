@@ -76,7 +76,7 @@ public class SecurityConfig {
          * del frontend.
          */
 
-        config.setAllowedOrigins(List.of("htttp://localhost:5173"));
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
 
         /*
          * Define los métodos HTTP que el frontend puede utilizar.
@@ -104,7 +104,7 @@ public class SecurityConfig {
          * que el cuerpo de la petición contiene JSON.
          */
 
-        config.setAllowedHeaders(List.of("Autorization", "Content-type"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-type"));
 
         /*
          * Permite el envío de credenciales en peticiones CORS,
@@ -179,13 +179,7 @@ public class SecurityConfig {
                          * con autenticación.
                          */
 
-                        .requestMatchers("/api/auth/**").permitAll()
-
-                        /*
-                         * Registro de usuarios.
-                         */
-
-                        .requestMatchers("/api/users/register").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
 
                         /*
                          * Todo lo demás requiere
